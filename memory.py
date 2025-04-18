@@ -54,7 +54,10 @@ print("\n##############################\n")
 def extract_facts(user_inputs):
     """ extract important facts from the user inputs """
     prompt = F"""extract the important facts from {user_inputs}  """
-    return call_llm(prompt)
+    response = client.models.generate_content(
+                             model="gemini-2.0-flash",
+                             contents=prompt)
+    return response.text
 print(extract_facts(user_inputs))
 factors =[]
 factors.append(extract_facts(user_inputs))
@@ -68,11 +71,17 @@ def get_next_step(query):
                   context : {factors}
                   read the context and decide what best possible answer you can give to the user
                   for the below query.
-                    query: {query}
+                  query: {query}
                  
              
                answer: """
-    return call_llm(prompt)
+    
+    response = client.models.generate_content(
+                             model="gemini-2.0-flash",
+                             contents=prompt)
+    return response.text
+
+    
 
 
 
